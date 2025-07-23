@@ -122,4 +122,15 @@ class PatientController extends Controller
         $patient->delete();
         return response()->json(['message' => 'Patient deleted']);
     }
+    
+    // Retrieve audit history for a specific patient
+    public function audits($patient_id)
+    {
+        if (!Gate::allows('isAdmin')) {
+            return response()->json(['error' => 'Forbidden'], 403);
+        }
+        $patient = Patient::findOrFail($patient_id);
+        $audits = $patient->audits()->latest('created_at')->paginate(20);
+        return response()->json($audits);
+    }
 }
