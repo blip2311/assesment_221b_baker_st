@@ -47,4 +47,25 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    
+    /**
+     * gets the patient model associated with the user. If the user is not a patient, it returns null.
+     *
+     * @return Patient|null
+     */
+    public function patient(): ?Patient
+    {
+        return $this->hasOne(Patient::class, 'id', 'id');
+    }
+
+    /**
+     * gets the doctor model associated with the user. If the user is not a doctor, it returns null.
+     *
+     * @return Doctor|null
+     */
+    public function doctor()
+    {
+        return $this->hasOne(Doctor::class, 'id', 'id');
+    }
+
 }
